@@ -53,7 +53,7 @@
 <form method="GET" action="show.html" class="form-container py-4">
 <div class="form-group">
 <h6>Please Enter XML Layout Code</h6>
-<textarea class="form-control" rows="20" id="input" onfocus="this.select();"></textarea>
+<textarea class="form-control" rows="20" id="input" onkeyup="update();" onfocus="this.select();"></textarea>
 </div>
 
 
@@ -65,10 +65,10 @@
 
 <section class="col-12 col-sm-6 col-md-6 py-2">
     
-    <form method="GET" action="show.html"  class="form-container py-4" id="output">
+    <form method="GET" action="show.html"  class="form-container py-4" >
     <div class="form-group">
     <h6>Output (Double Click to Copy)</h6>
-    <textarea  class="form-control" onfocus="this.select();" rows="20" id="output"></textarea>
+    <textarea ondblclick="CopyCode()" class="form-control" onfocus="this.select();" rows="20" id="output"></textarea>
     </div>
    
     </form>
