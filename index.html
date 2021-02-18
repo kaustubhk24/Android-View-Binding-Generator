@@ -34,14 +34,14 @@
 
 <section class="container-fluid bg py-3">
     <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="typecasting">
+        <input type="checkbox" class="form-check-input" id="typecasting" onclick="typeCast();">
         <label class="form-check-label" for="typecasting">Add typecasting for view.</label>
     </div>
 
     <div class="form-check">
         <input type="checkbox" class="form-check-input" id="prefixCheck"  onclick="showHide();">
         <label class="form-check-label" for="prefixCheck">Add prefix to variable name</label>
-        <input type="text" style="display: none;" id="prefix" placeholder="Enter Prefix" ></div>
+        <input type="text" style="display: none;"  onkeyup="addPrefix();" id="prefix" placeholder="Enter Prefix" ></div>
     </div>
     <br>
 

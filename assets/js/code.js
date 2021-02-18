@@ -6,11 +6,15 @@ function init()
 
     input.value="<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\">\n\n    <LinearLayout\n        android:id=\"@+id/linear_parent\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:orientation=\"vertical\">\n\n       <EditText\n                    android:id=\"@+id/edittext_userName\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"/>\n\n        <EditText\n                    android:id=\"@+id/edittext_password\"\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"/>\n\n        <Button\n                android:id=\"@+id/button_login\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"/>\n</RelativeLayout>\n";
     update();
- 
+
+
 }
+
+
 
 function update()
 {
+    
     console.clear();
     
     var arr=[];
@@ -55,16 +59,13 @@ output_text=output_text+"\n}"
 function return_output1(str,output_text)
 {
     raw=str.split(":");
-    return raw[0]+" "+raw[1]+";\n";
-
-  
-
+    return raw[0]+" "+camelCase(raw[1])+";\n";
 }
 
 function return_output2(str,output_text)
 {
     raw=str.split(":");
-    return "    "+raw[1]+" = findViewById(R.id."+raw[1]+");\n";
+    return "    "+camelCase(raw[1])+" = findViewById(R.id."+raw[1]+");\n";
 
 }
 function GetIdIfHasId( str)
@@ -96,20 +97,34 @@ function checkIfHasId(str)
 
 function showHide()
 {
-    var prefixCheckBox=document.getElementById('prefixCheck');
     var prefixVal=document.getElementById('prefix');
+
+    var prefixCheckBox=document.getElementById('prefixCheck');
     if(prefixCheckBox.checked==true)
     {
         prefixVal.style.display="block";
+        addPrefix();
     }
     else
     {
         prefixVal.style.display="none";
         prefixVal.value="";
+        update();
 
     }
 
 }
+
+function typeCast()
+{
+    var typeCasting=document.getElementById('typecasting');
+    if(typeCasting.checked==true)
+    {TypecastUpdate();    }
+    else
+    {update();    }
+
+}
+
 
 function returnLayoutAndName(s,arr)
 {
@@ -152,3 +167,157 @@ function CopyCode() {
     /* Alert the copied text */
     alert("Copied!");
   }
+
+
+  function TypecastUpdate( )
+{
+    
+        console.clear();
+    
+    var arr=[];
+    var output_text="\n/* Android Views Declarations */\n\n";
+    returnLayoutAndName(input.value,arr);
+    for(var i=0;i<arr.length;i++)
+    {
+        if(!arr[i].includes("undefined"))
+        {
+            //output_text=output_text+arr[i].replace(/[\n\r]/g, '')+"\n";
+
+           output_text=output_text+return_output1(arr[i].replace(/[\n\r]/g, ''),output_text);
+           
+        }
+    }
+    output_text=output_text+" \n/* Declaration Ends Here */"
+    
+    output_text=output_text+"\n\n /* Paste below Function in your file. & call  bindViews() function when activity created */ \n\n\nprivate void bindViews()\n{\n";
+
+
+    for(var j=0;j<arr.length;j++)
+    {
+        if(!arr[j].includes("undefined"))
+        {
+            //output_text=output_text+arr[i].replace(/[\n\r]/g, '')+"\n";
+
+           output_text=output_text+type_cast_return_output2(arr[j].replace(/[\n\r]/g, ''),output_text);
+           
+        }
+    }
+
+
+
+
+
+output_text=output_text+"\n}"
+
+    output.value=output_text;
+    console.log(output_text);
+
+
+    }
+   
+
+    
+    function type_cast_return_output2(str,output_text)
+    {
+        raw=str.split(":");
+        return "    "+camelCase(raw[1])+" = ("+raw[0]+") findViewById(R.id."+raw[1]+");\n";
+    
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    function addPrefix( )
+    {
+        var prefixVal=document.getElementById('prefix');
+
+        
+            console.clear();
+        
+        var arr=[];
+        var output_text="\n/* Android Views Declarations */\n\n";
+        returnLayoutAndName(input.value,arr);
+        for(var i=0;i<arr.length;i++)
+        {
+            if(!arr[i].includes("undefined"))
+            {
+                //output_text=output_text+arr[i].replace(/[\n\r]/g, '')+"\n";
+    
+               output_text=output_text+return_prefix_output1(arr[i].replace(/[\n\r]/g, ''),output_text);
+               
+            }
+        }
+        output_text=output_text+" \n/* Declaration Ends Here */"
+        
+        output_text=output_text+"\n\n /* Paste below Function in your file. & call  bindViews() function when activity created */ \n\n\nprivate void bindViews()\n{\n";
+    
+    
+        for(var j=0;j<arr.length;j++)
+        {
+            if(!arr[j].includes("undefined"))
+            {
+                //output_text=output_text+arr[i].replace(/[\n\r]/g, '')+"\n";
+    
+               output_text=output_text+return_prefix_output2(arr[j].replace(/[\n\r]/g, ''),output_text);
+               
+            }
+        }
+    
+    
+    
+    
+    
+    output_text=output_text+"\n}"
+    
+        output.value=output_text;
+        console.log(output_text);
+    
+    
+        }
+       
+        function return_prefix_output1(str,output_text)
+        {
+            var prefixVal=document.getElementById('prefix');
+
+            raw=str.split(":");
+            return raw[0]+" "+prefixVal.value+camelCase(raw[1])+";\n";
+        }
+        
+        function return_prefix_output2(str,output_text)
+        {
+            var prefixVal=document.getElementById('prefix');
+
+            raw=str.split(":");
+            return "    "+prefixVal.value+camelCase(raw[1])+" = ("+raw[0]+") findViewById(R.id."+raw[1]+");\n";
+        
+        }
+
+        function camelCase(a)
+        {
+        if(a.includes("_"))
+        {
+          var v=a.indexOf("_");
+        
+          var strArr = a.split("");
+        
+        strArr[v+1] = a.charAt(v+1).toUpperCase();
+        
+        a = strArr.join("");
+        
+        
+          c=a.replace("_","");
+          return c;
+        }
+        else
+        {
+            return a;
+        }
+        }
