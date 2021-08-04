@@ -2,7 +2,7 @@
 
 Hello Dear Android Users , you can use this library to bind views. Just paste your xml code & you will get complete binding code. 
 
-Use Library [here.](https://kaustubh.codes/old/avb-helper/)
+Use Library [here.](https://kaustubhk24.github.io/Android-View-Binding-Generator/)
 
 ## Added Features 
  1. Prefix for variables
